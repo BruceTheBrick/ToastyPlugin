@@ -5,7 +5,8 @@ ToastyPlugin.prototype.show = function (message, duration, successCallback, erro
   options.message = message;
   options.duration = duration;
 
-  cordova.exec(successCallback, errorCallback, "ToastyPlugin", "show", [options]);
+  // cordova.exec(successCallback, errorCallback, "ToastyPlugin", "check", [options]);
+  cordova.exec(successCallback, errorCallback, "ToastyPlugin", "check", []);
 };
 
 ToastyPlugin.install = function () {
