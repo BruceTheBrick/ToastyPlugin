@@ -41,7 +41,7 @@ public class ToastyPlugin extends CordovaPlugin{
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
-        if (action.equals("check")) {
+        if (action.equals("show")) {
 
                 // Acquire a reference to the system Location Manager
           LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
