@@ -22,7 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class MockLocationChecker extends CordovaPlugin{
+public class ToastyPlugin extends CordovaPlugin{
 
     private int MY_PERMISSIONS_REQUEST = 0;
 
