@@ -66,68 +66,70 @@ public class ToastyPlugin extends CordovaPlugin{
               }
           }
 
-          if(listenerON != true) {
+          Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          objGPS.put("isMock", myloc.isMock? true : false);
+        //   if(listenerON != true) {
 
-              // Define a listener that responds to location updates
-              locationListener = new LocationListener() {
-                  public void onLocationChanged(Location location) {
+        //       // Define a listener that responds to location updates
+        //       locationListener = new LocationListener() {
+        //           public void onLocationChanged(Location location) {
 
-                        try{
-                            if (location.isMock() == true) {
-                                objGPS.put("isMock", true);
-                            } else {
-                                objGPS.put("isMock", false);
-                            }
+        //                 try{
+        //                     if (location.isMock() == true) {
+        //                         objGPS.put("isMock", true);
+        //                     } else {
+        //                         objGPS.put("isMock", false);
+        //                     }
 
-                            callbackContext.success(arrayGPS);
-                        } catch (JSONException e) {
-                          e.printStackTrace();
-                          callbackContext.error(e.toString());
-                        }
-                  }
+        //                     callbackContext.success(arrayGPS);
+        //                 } catch (JSONException e) {
+        //                   e.printStackTrace();
+        //                   callbackContext.error(e.toString());
+        //                 }
+        //           }
 
-                  public void onStatusChanged(String provider, int status, Bundle extras) {}
+        //           public void onStatusChanged(String provider, int status, Bundle extras) {}
 
-                  public void onProviderEnabled(String provider) {}
+        //           public void onProviderEnabled(String provider) {}
 
-                  public void onProviderDisabled(String provider) { }
-              };
+        //           public void onProviderDisabled(String provider) { }
+        //       };
 
-              // Here, thisActivity is the current activity
-              if (ContextCompat.checkSelfPermission(this.cordova.getActivity(),
-                      Manifest.permission.ACCESS_FINE_LOCATION)
-                      != PackageManager.PERMISSION_GRANTED) {
+        //       // Here, thisActivity is the current activity
+        //       if (ContextCompat.checkSelfPermission(this.cordova.getActivity(),
+        //               Manifest.permission.ACCESS_FINE_LOCATION)
+        //               != PackageManager.PERMISSION_GRANTED) {
 
-                  // Should we show an explanation?
-                  if (ActivityCompat.shouldShowRequestPermissionRationale(this.cordova.getActivity(),
-                          Manifest.permission.ACCESS_FINE_LOCATION)) {
+        //           // Should we show an explanation?
+        //           if (ActivityCompat.shouldShowRequestPermissionRationale(this.cordova.getActivity(),
+        //                   Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                      // Show an explanation to the user *asynchronously* -- don't block
-                      // this thread waiting for the user's response! After the user
-                      // sees the explanation, try again to request the permission.
+        //               // Show an explanation to the user *asynchronously* -- don't block
+        //               // this thread waiting for the user's response! After the user
+        //               // sees the explanation, try again to request the permission.
 
-                  } else {
+        //           } else {
 
-                      // No explanation needed, we can request the permission.
+        //               // No explanation needed, we can request the permission.
 
-                      ActivityCompat.requestPermissions(this.cordova.getActivity(),
-                              new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                              MY_PERMISSIONS_REQUEST);
+        //               ActivityCompat.requestPermissions(this.cordova.getActivity(),
+        //                       new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+        //                       MY_PERMISSIONS_REQUEST);
 
-                      // MY_PERMISSIONS_REQUEST is an
-                      // app-defined int constant. The callback method gets the
-                      // result of the request.
-                  }
-              }
+        //               // MY_PERMISSIONS_REQUEST is an
+        //               // app-defined int constant. The callback method gets the
+        //               // result of the request.
+        //           }
+        //       }
 
-              listenerON = true;
+        //       listenerON = true;
 
-              // Register the listener with the Location Manager to receive location updates
-              locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 0, locationListener);
+        //       // Register the listener with the Location Manager to receive location updates
+        //       locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 0, locationListener);
 
-          }else{
-              callbackContext.success(arrayGPS);
-          }
+        //   }else{
+        //       callbackContext.success(arrayGPS);
+        //   }
 
           return true;
         }
