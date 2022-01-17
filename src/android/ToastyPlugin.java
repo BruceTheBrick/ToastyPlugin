@@ -75,19 +75,19 @@ public class ToastyPlugin extends CordovaPlugin{
 
                             // Called when a new location is found by the network location provider.
 
-                            Date dateGPS = new Date(location.getTime());
+                            // Date dateGPS = new Date(location.getTime());
 
-                            String datetime = formatDate(dateGPS);
+                            // String datetime = formatDate(dateGPS);
 
-                             Log.e("DATA-GPS", "Lat:" + location.getLatitude() + " - Long:" + location.getLongitude() + " - Data e hora:" + datetime);
+                            //  Log.e("DATA-GPS", "Lat:" + location.getLatitude() + " - Long:" + location.getLongitude() + " - Data e hora:" + datetime);
 
                              try{
 
                                  objGPS.put("lat",location.getLatitude());
                                  objGPS.put("long",location.getLongitude());
                                  objGPS.put("time",location.getTime());
-                                 objGPS.put("formatTime",datetime);
-                                 objGPS.put("extra",null);
+                                //  objGPS.put("formatTime",datetime);
+                                //  objGPS.put("extra",null);
 
                                 //  if (location.isFromMockProvider() == true) {
                                   if(location.isMock()){
@@ -104,7 +104,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
                                  Log.e("GPS-LOCATION-ARRAY", arrayGPS.toString());
 
-                                 callbackContext.success(arrayGPS);
+                                 callbackContext.success(objGPS);
 
 
                              } catch (JSONException e) {
@@ -161,7 +161,7 @@ public class ToastyPlugin extends CordovaPlugin{
                     locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 0, locationListener);
 
                 }else{
-                    callbackContext.success(arrayGPS);
+                    callbackContext.success(objGPS);
                 }
 
             
