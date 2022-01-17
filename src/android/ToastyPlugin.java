@@ -55,7 +55,12 @@ public class ToastyPlugin extends CordovaPlugin{
           }
           locationListener = new LocationListener(){
             public void onLocationChanged(Location location){
+
+              try{
               objGPS.put("newTest", location.isFromMockProvider());
+              }catch(JSONException e){
+                return;
+              }
               callbackContext.success(objGPS);
             }
           };
