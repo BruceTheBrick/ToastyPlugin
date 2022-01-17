@@ -42,41 +42,18 @@ public class ToastyPlugin extends CordovaPlugin{
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
         if (action.equals("show")) {
-
-                // Acquire a reference to the system Location Manager
+          try{
           LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-          // getting GPS status
-        //   isGPSEnabled = locationManager
-        //           .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        // // getting network status
-        //   isNetworkEnabled = locationManager
-        //           .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-
-        //   if(!isGPSEnabled && !isNetworkEnabled) {
-        //       // no network provider is enabled
-        //   }else{
-        //       if(isGPSEnabled){
-        //           LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
-        //       }
-        //       if(isNetworkEnabled){
-        //           LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
-        //       }
-        //   }
-
           Location myloc = new Location(LocationManager.GPS_PROVIDER);
           boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
-          try{
-            objGPS.put("isMock", isSpoofed);
+          objGPS.put("isMock", isSpoofed);
+          return true;
           }
-          catch(JSONException e){
+          catch(Exception e){
             callbackContext.error(e.toString());
           }
-        
-          return true;
         }
+        
         else {
           return false;
         }
