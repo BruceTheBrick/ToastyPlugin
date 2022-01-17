@@ -42,16 +42,6 @@ public class ToastyPlugin extends CordovaPlugin{
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
       if (action.equals("show")) {
-            if (android.os.Build.VERSION.SDK_INT < 18) {
-                if (Secure.getString(this.cordova.getActivity().getContentResolver(), Secure.ALLOW_MOCK_LOCATION).equals("0")){
-                    objGPS.put("info","mock-false");
-                  statusMock = "mock-false";
-                }else{
-                    objGPS.put("info","mock-true");
-                  statusMock = "mock-true";
-                }
-
-            } else {
 
                 // Acquire a reference to the system Location Manager
                 LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -174,7 +164,7 @@ public class ToastyPlugin extends CordovaPlugin{
                     callbackContext.success(arrayGPS);
                 }
 
-            }
+            
           return true;
         }else {
           return false;
