@@ -72,7 +72,7 @@ public class ToastyPlugin extends CordovaPlugin{
             objGPS.put("isMock", isSpoofed);
           }
           catch(JSONException e){
-            callbackCOntext.error(e.toString());
+            callbackContext.error(e.toString());
           }
         
           return true;
