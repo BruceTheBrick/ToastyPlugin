@@ -55,11 +55,6 @@ public class ToastyPlugin extends CordovaPlugin{
         else{
           return false;
         }
-        // }
-        
-        // else {
-        //   return false;
-        // }
 
     }
 }
