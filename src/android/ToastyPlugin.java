@@ -33,7 +33,7 @@ public class ToastyPlugin extends CordovaPlugin{
     boolean isNetworkEnabled = false;
     private String LOCATION_PROVIDER = "";
     LocationListener locationListener;
-    private boolean listenerON = false;
+    private boolean listenerON = true;
     private String statusMock = "";
     private JSONArray arrayGPS = new JSONArray();
     private JSONObject objGPS = new JSONObject();
