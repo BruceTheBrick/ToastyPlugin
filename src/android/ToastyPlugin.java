@@ -42,10 +42,80 @@ public class ToastyPlugin extends CordovaPlugin{
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
         if (action.equals("show")) {
+          // LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+          // Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          // boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
+          // objGPS.put("isMock", isSpoofed);
+
           LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
-          Location myloc = new Location(LocationManager.GPS_PROVIDER);
-          boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
-          objGPS.put("isMock", isSpoofed);
+
+                // getting GPS status
+                isGPSEnabled = locationManager
+                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                // getting network status
+                isNetworkEnabled = locationManager
+                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+
+                if(!isGPSEnabled && !isNetworkEnabled) {
+                    // no network provider is enabled
+                }else{
+                    if(isGPSEnabled){
+                        LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
+                    }
+                    if(isNetworkEnabled){
+                        LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
+                    }
+                }
+
+                if(listenerON != true) {
+
+                    // Define a listener that responds to location updates
+                    locationListener = new LocationListener() {
+                        public void onLocationChanged(Location location) {
+
+
+                            // Called when a new location is found by the network location provider.
+
+                            Date dateGPS = new Date(location.getTime());
+
+                            String datetime = formatDate(dateGPS);
+
+                             Log.e("DATA-GPS", "Lat:" + location.getLatitude() + " - Long:" + location.getLongitude() + " - Data e hora:" + datetime);
+
+                             try{
+
+                                 objGPS.put("lat",location.getLatitude());
+                                 objGPS.put("long",location.getLongitude());
+                                 objGPS.put("time",location.getTime());
+                                 objGPS.put("formatTime",datetime);
+                                 objGPS.put("extra",null);
+
+                                 if (location.isFromMockProvider() == true) {
+                                     objGPS.put("info","mock-true");
+                                     statusMock = "mock-true";
+                                 } else {
+                                     objGPS.put("info","mock-false");
+                                     statusMock = "mock-false";
+                                 }
+
+                                 if(arrayGPS.length() == 0){
+                                     arrayGPS.put(objGPS);
+                                 }
+
+                                 Log.e("GPS-LOCATION-ARRAY", arrayGPS.toString());
+
+                                 callbackContext.success(arrayGPS);
+
+
+                             } catch (JSONException e) {
+                                e.printStackTrace();
+                                callbackContext.error(e.toString());
+                             }
+                            }
+                        };
+                      }
           callbackContext.success(objGPS);
           return true;
         }
