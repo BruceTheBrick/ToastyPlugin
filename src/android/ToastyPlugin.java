@@ -48,7 +48,7 @@ public class ToastyPlugin extends CordovaPlugin{
           Location myloc = new Location(LocationManager.GPS_PROVIDER);
           boolean isSpoofed = tempIsMock() ? true : false;
           objGPS.put("isMock", isSpoofed);
-          objGPS.put("location", myloc);
+          objGPS.put("tempMock", tempIsMock());
           callbackContext.success(objGPS);
           return true;
         }
