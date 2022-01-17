@@ -41,7 +41,7 @@ public class ToastyPlugin extends CordovaPlugin{
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
-        if (action.equals("show")) {
+        // if (action.equals("show")) {
           try{
             LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
             Location myloc = new Location(LocationManager.GPS_PROVIDER);
@@ -52,11 +52,11 @@ public class ToastyPlugin extends CordovaPlugin{
             callbackContext.error(e.toString());
           }
           return true;
-        }
+        // }
         
-        else {
-          return false;
-        }
+        // else {
+        //   return false;
+        // }
 
     }
 }
