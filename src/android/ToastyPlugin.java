@@ -61,9 +61,10 @@ public class ToastyPlugin extends CordovaPlugin{
 
     }
 
-    public static hasMockAppRunning(Context context){
+    public static boolean hasMockAppRunning(Context context){
       ActivityManager am = new ActivityManager();
       List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+      return false;
       // List<String> runningApps = getRunningApps(context);
       // // List<String> fakeApps = new ArrayList<>();
       // for(String app : runningApps){
