@@ -16,6 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+// import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+// import android.content.pm.PackageManager;
+// import android.util.Log;
+
+import java.util.List;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.json.JSONArray;
