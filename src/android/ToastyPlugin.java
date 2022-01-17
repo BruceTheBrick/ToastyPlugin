@@ -16,6 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+// import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+// import android.content.pm.PackageManager;
+// import android.util.Log;
+
+import java.util.List;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.json.JSONArray;
@@ -41,143 +49,60 @@ public class ToastyPlugin extends CordovaPlugin{
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
 
-      if (action.equals("show")) {
+        if (action.equals("show")) {
+          Context ctx = this.cordova.getActivity().getApplicationContext();
+          LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+          Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
+          objGPS.put("isMock", isSpoofed);
+          objGPS.put("hasRunningMock", hasMockAppRunning(ctx));
+          objGPS.put("hasSetMock", hasSetMock(ctx));
 
-                // Acquire a reference to the system Location Manager
-                LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-                // getting GPS status
-                isGPSEnabled = locationManager
-                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-                // getting network status
-                isNetworkEnabled = locationManager
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-
-                if(!isGPSEnabled && !isNetworkEnabled) {
-                    // no network provider is enabled
-                }else{
-                    if(isGPSEnabled){
-                        LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
-                    }
-                    if(isNetworkEnabled){
-                        LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
-                    }
-                }
-
-                if(!listenerON) {
-
-                    // Define a listener that responds to location updates
-                    locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-
-
-                            // Called when a new location is found by the network location provider.
-
-                            // Date dateGPS = new Date(location.getTime());
-
-                            // String datetime = formatDate(dateGPS);
-
-                            //  Log.e("DATA-GPS", "Lat:" + location.getLatitude() + " - Long:" + location.getLongitude() + " - Data e hora:" + datetime);
-
-                             try{
-
-                                 objGPS.put("lat",location.getLatitude());
-                                 objGPS.put("long",location.getLongitude());
-                                 objGPS.put("time",location.getTime());
-                                //  objGPS.put("formatTime",datetime);
-                                //  objGPS.put("extra",null);
-
-                                //  if (location.isFromMockProvider() == true) {
-                                  if(location.isMock()){
-                                     objGPS.put("info","mock-true");
-                                     statusMock = "mock-true";
-                                 } else {
-                                     objGPS.put("info","mock-false");
-                                     statusMock = "mock-false";
-                                 }
-
-                                 if(arrayGPS.length() == 0){
-                                     arrayGPS.put(objGPS);
-                                 }
-
-                                 Log.e("GPS-LOCATION-ARRAY", arrayGPS.toString());
-
-                                 callbackContext.success(objGPS);
-
-
-                             } catch (JSONException e) {
-                                e.printStackTrace();
-                                callbackContext.error(e.toString());
-                             }
-
-
-                        }
-
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                        }
-
-                        public void onProviderEnabled(String provider) {
-
-                        }
-
-                        public void onProviderDisabled(String provider) {
-
-                        }
-                    };
-
-                    // Here, thisActivity is the current activity
-                    if (ContextCompat.checkSelfPermission(this.cordova.getActivity(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                        // Should we show an explanation?
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this.cordova.getActivity(),
-                                Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                            // Show an explanation to the user *asynchronously* -- don't block
-                            // this thread waiting for the user's response! After the user
-                            // sees the explanation, try again to request the permission.
-
-                        } else {
-
-                            // No explanation needed, we can request the permission.
-
-                            ActivityCompat.requestPermissions(this.cordova.getActivity(),
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    MY_PERMISSIONS_REQUEST);
-
-                            // MY_PERMISSIONS_REQUEST is an
-                            // app-defined int constant. The callback method gets the
-                            // result of the request.
-                        }
-                    }
-
-                    listenerON = true;
-
-                    // Register the listener with the Location Manager to receive location updates
-                    locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 0, locationListener);
-
-                }else{
-                    objGPS.put("Here", "yo"); 
-                    callbackContext.success(objGPS);
-                }
-
-            
+          callbackContext.success(objGPS);
           return true;
-        }else {
+        }
+
+
+        else{
           return false;
         }
 
     }
 
-    private String formatDate(Date date){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String format = formatter.format(date);
-
-        return format;
+    public static boolean hasMockAppRunning(Context context){
+      // ActivityManager am = new ActivityManager();
+      // List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+      return false;
+      // List<String> runningApps = getRunningApps(context);
+      // // List<String> fakeApps = new ArrayList<>();
+      // for(String app : runningApps){
+      //   if(!isSystemPackage(context, app) && hasAppPermission(context, app, "android.permission.ACCESS_MOCK_LOCATION")){
+      //       return true;
+      //   }
+      // }
+      // return false;
     }
 
+    public static boolean hasSetMock(Context context){
+      PackageManager pm = context.getPackageManager();
+      List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+      if(packages != null){
+        for(ApplicationInfo appInfo : packages){
+          try{
+            PackageInfo pi = pm.getPackageInfo(appInfo.packageName, PackageManager.GET_PERMISSIONS);
+            String[] reqPerms = pi.requestedPermissions;
+            if(reqPerms != null){
+              for(int i = 0; i < reqPerms.length; i++){
+                if(reqPerms[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !appInfo.packageName.equals(context.getPackageName())){
+                  return true;
+                }
+              }
+            }
+          } catch(Exception e){
+            Log.e("Mock location check error", e.getMessage());
+          }
+        }
+      }
+      return false;
+    }
 }
