@@ -47,24 +47,24 @@ public class ToastyPlugin extends CordovaPlugin{
           LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
           // getting GPS status
-          isGPSEnabled = locationManager
-                  .isProviderEnabled(LocationManager.GPS_PROVIDER);
+        //   isGPSEnabled = locationManager
+        //           .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        // getting network status
-          isNetworkEnabled = locationManager
-                  .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        // // getting network status
+        //   isNetworkEnabled = locationManager
+        //           .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 
-          if(!isGPSEnabled && !isNetworkEnabled) {
-              // no network provider is enabled
-          }else{
-              if(isGPSEnabled){
-                  LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
-              }
-              if(isNetworkEnabled){
-                  LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
-              }
-          }
+        //   if(!isGPSEnabled && !isNetworkEnabled) {
+        //       // no network provider is enabled
+        //   }else{
+        //       if(isGPSEnabled){
+        //           LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
+        //       }
+        //       if(isNetworkEnabled){
+        //           LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
+        //       }
+        //   }
 
           Location myloc = new Location(LocationManager.GPS_PROVIDER);
           boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
@@ -77,12 +77,4 @@ public class ToastyPlugin extends CordovaPlugin{
         }
 
     }
-
-    private String formatDate(Date date){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String format = formatter.format(date);
-
-        return format;
-    }
-
 }
