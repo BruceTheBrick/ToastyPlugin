@@ -161,6 +161,7 @@ public class ToastyPlugin extends CordovaPlugin{
                     locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 0, locationListener);
 
                 }else{
+                    objGPS.put("Here", "yo"); 
                     callbackContext.success(objGPS);
                 }
 
