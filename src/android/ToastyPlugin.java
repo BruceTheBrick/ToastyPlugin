@@ -34,7 +34,6 @@ public class ToastyPlugin extends CordovaPlugin{
     private String LOCATION_PROVIDER = "";
     LocationListener locationListener;
     LocationManager locationManager;
-    Location currentLocation;
     private boolean listenerON = false;
     private String statusMock = "";
     private JSONArray arrayGPS = new JSONArray();
@@ -43,14 +42,13 @@ public class ToastyPlugin extends CordovaPlugin{
 
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
-      getLocation();
         if (action.equals("show")) {
-          // LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+          LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
           LocationProvider lProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
-          // Location myloc = new Location(LocationManager.GPS_PROVIDER);
-          boolean isSpoofed = currentLocation.isFromMockProvider() ? true : false;
+          Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          boolean isSpoofed = tempIsMock() ? true : false;
           objGPS.put("isMock", isSpoofed);
-          objGPS.put("location", currentLocation);
+          objGPS.put("location", myloc);
           callbackContext.success(objGPS);
           return true;
         }
@@ -60,18 +58,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
     }
 
-    void getLocation(){
-      try{
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 5, this);
-      }
-      catch(Exception e){
-        e.printStackTrace();
-      }
-    }
-
-    @Override
-    public void onLocationChanged(Location location){
-      currentLocation = location;
+    public boolean tempIsMock(){
+      return Secure.getString(this.cordova.getActivity().getContentResolver(), Secure.ALLOW_MOCK_LOCATION).equals("0");
     }
 }
