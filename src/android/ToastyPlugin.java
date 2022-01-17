@@ -70,8 +70,8 @@ public class ToastyPlugin extends CordovaPlugin{
     }
 
     public static boolean hasMockAppRunning(Context context){
-      ActivityManager am = new ActivityManager();
-      List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+      // ActivityManager am = new ActivityManager();
+      // List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
       return false;
       // List<String> runningApps = getRunningApps(context);
       // // List<String> fakeApps = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ToastyPlugin extends CordovaPlugin{
         for(ApplicationInfo appInfo : packages){
           try{
             PackageInfo pi = pm.getPackageInfo(appInfo.packageName, PackageManager.GET_PERMISSIONS);
-            String[] reqPerms = packageInfo.requestedPermissions;
+            String[] reqPerms = pi.requestedPermissions;
             if(reqPerms != null){
               for(int i = 0; i < reqPerms.length; i++){
                 if(reqPerms[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !appInfo.packageName.equals(context.getPackageName())){
