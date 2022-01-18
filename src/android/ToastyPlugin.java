@@ -10,7 +10,9 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
+// import android.provider.Settings.Secure;
+import android.provider.Settings;
+import android.os.Build;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,7 +20,10 @@ import android.util.Log;
 
 // import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PackageInfo;
+import java.lang.IllegalArgumentException;
+
 // import android.content.pm.PackageManager;
 // import android.util.Log;
 
@@ -59,6 +64,7 @@ public class ToastyPlugin extends CordovaPlugin{
           objGPS.put("hasRunningMock", hasMockAppRunning(ctx));
           objGPS.put("hasSetMock", hasSetMock(ctx));
           objGPS.put("providers", providers);
+          objGPS.put("newTest", isMockLocation(ctx));
           callbackContext.success(objGPS);
           return true;
         }
@@ -68,6 +74,42 @@ public class ToastyPlugin extends CordovaPlugin{
           return false;
         }
 
+    }
+
+    public static boolean isMockLocationOn(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return "0".equals(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION));
+        } else {
+            PackageManager pm = context.getPackageManager();
+            List<ApplicationInfo> packages =
+                    pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+            if (packages != null) {
+                for (ApplicationInfo applicationInfo : packages) {
+                    try {
+                        PackageInfo packageInfo = pm.getPackageInfo(applicationInfo.packageName,
+                                PackageManager.GET_PERMISSIONS);
+
+                        // Get Permissions
+                        String[] requestedPermissions = packageInfo.requestedPermissions;
+
+                        if (requestedPermissions != null) {
+                            for (int i = 0; i < requestedPermissions.length; i++) {
+                                if (requestedPermissions[i]
+                                        .equals("android.permission.ACCESS_MOCK_LOCATION")
+                                        && !applicationInfo.packageName.equals(context.getPackageName())) {
+                                    return true;
+                                }
+                            }
+                        }
+                    } catch (NameNotFoundException e) {
+                        Log.e("Mock location check error", e.getMessage());
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 
     public static boolean hasMockAppRunning(Context context){
