@@ -64,7 +64,7 @@ public class ToastyPlugin extends CordovaPlugin{
           objGPS.put("hasRunningMock", hasMockAppRunning(ctx));
           objGPS.put("hasSetMock", hasSetMock(ctx));
           objGPS.put("providers", providers);
-          objGPS.put("newTest", isMockLocation(ctx));
+        objGPS.put("newTest", isMockLocationOn(ctx));
           callbackContext.success(objGPS);
           return true;
         }
