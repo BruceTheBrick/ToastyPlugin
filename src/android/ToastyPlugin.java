@@ -86,7 +86,7 @@ public class ToastyPlugin extends CordovaPlugin{
     public static int hasSetMock(Context context){
       PackageManager pm = context.getPackageManager();
       List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-      return packages.length;
+      return packages.size();
       // if(packages != null){
       //   for(ApplicationInfo appInfo : packages){
       //     try{
