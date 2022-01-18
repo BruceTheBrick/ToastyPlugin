@@ -16,22 +16,29 @@ import javax.security.auth.callback.Callback;
 public class ToastyPlugin extends CordovaPlugin{
 
   private JSONObject objGPS = new JSONObject();
-
-    private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+  private CallbackContext context;
 
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
-
+      context = callbackContext;
         if (action.equals("show")) {
-          Context ctx = this.cordova.getActivity().getApplicationContext();
-          LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
-          List<String> providers = locationManager.getAllProviders();
-          Location myloc = new Location(LocationManager.GPS_PROVIDER);
-          boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
-          objGPS.put("isMock", isSpoofed);
-          objGPS.put("hasPerms", hasPerms());
-          callbackContext.success(objGPS);
-          return true;
+          if(hasPerms()){
+            objGPS.put("hasPerms", hasPerms());
+          }
+          else{
+            getPerms();
+          }
+
+          // Context ctx = this.cordova.getActivity().getApplicationContext();
+          // LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+          // List<String> providers = locationManager.getAllProviders();
+          // Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          // boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
+          // objGPS.put("isMock", isSpoofed);
+          // objGPS.put("hasPerms", hasPerms());
+          // callbackContext.success(objGPS);
+          // return true;
         }
 
         else{
@@ -40,11 +47,31 @@ public class ToastyPlugin extends CordovaPlugin{
 
     }
 
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException{
+      PluginResult result;
+
+      if(context != null){
+        for(int r : grantResults){
+          if(r == PackageManager.PERMISSION_DENIED){
+            result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
+            context.sendPluginResult(result);
+            return;
+          }
+        }
+        result = new PluginResult(PluginResult.Status.OK);
+        context.sendPluginResult(result);
+      }
+    }
+
     private boolean hasPerms(){
       for(String p : permissions){
         if(!PermissionHelper.hasPermission(this, p)) return false;
       }
       return true;
+    }
+
+    private void getPerms(int requestCode){
+      PermissionHelper.requestPermissions(this, requestCode, permissions);
     }
 
 }
