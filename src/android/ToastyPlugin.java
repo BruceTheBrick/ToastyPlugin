@@ -25,6 +25,7 @@ public class ToastyPlugin extends CordovaPlugin{
         if (action.equals("show")) {
           if(hasPerms()){
             objGPS.put("hasPerms", hasPerms());
+
           }
           else{
             getPerms(0);
@@ -37,9 +38,10 @@ public class ToastyPlugin extends CordovaPlugin{
           // boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
           // objGPS.put("isMock", isSpoofed);
           // objGPS.put("hasPerms", hasPerms());
-          // callbackContext.success(objGPS);
-          // return true;
+          callbackContext.success(objGPS);
+          return true;
         }
+
 
         else{
           return false;
