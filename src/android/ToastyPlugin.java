@@ -27,7 +27,7 @@ public class ToastyPlugin extends CordovaPlugin{
             objGPS.put("hasPerms", hasPerms());
           }
           else{
-            getPerms();
+            getPerms(0);
           }
 
           // Context ctx = this.cordova.getActivity().getApplicationContext();
