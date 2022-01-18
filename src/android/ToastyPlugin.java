@@ -83,26 +83,27 @@ public class ToastyPlugin extends CordovaPlugin{
       // return false;
     }
 
-    public static boolean hasSetMock(Context context){
+    public static int hasSetMock(Context context){
       PackageManager pm = context.getPackageManager();
       List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-      if(packages != null){
-        for(ApplicationInfo appInfo : packages){
-          try{
-            PackageInfo pi = pm.getPackageInfo(appInfo.packageName, PackageManager.GET_PERMISSIONS);
-            String[] reqPerms = pi.requestedPermissions;
-            if(reqPerms != null){
-              for(int i = 0; i < reqPerms.length; i++){
-                if(reqPerms[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !appInfo.packageName.equals(context.getPackageName())){
-                  return true;
-                }
-              }
-            }
-          } catch(Exception e){
-            Log.e("Mock location check error", e.getMessage());
-          }
-        }
-      }
-      return false;
+      return packages.length;
+      // if(packages != null){
+      //   for(ApplicationInfo appInfo : packages){
+      //     try{
+      //       PackageInfo pi = pm.getPackageInfo(appInfo.packageName, PackageManager.GET_PERMISSIONS);
+      //       String[] reqPerms = pi.requestedPermissions;
+      //       if(reqPerms != null){
+      //         for(int i = 0; i < reqPerms.length; i++){
+      //           if(reqPerms[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !appInfo.packageName.equals(context.getPackageName())){
+      //             return true;
+      //           }
+      //         }
+      //       }
+      //     } catch(Exception e){
+      //       Log.e("Mock location check error", e.getMessage());
+      //     }
+      //   }
+      // }
+      // return false;
     }
 }
