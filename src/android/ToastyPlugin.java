@@ -8,6 +8,7 @@ import org.apache.cordova.*;
 import org.json.*;
 import android.location.*;
 import android.content.*;
+import android.app.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
 
@@ -16,7 +17,7 @@ import javax.security.auth.callback.Callback;
 public class ToastyPlugin extends CordovaPlugin{
 
   private JSONObject objGPS = new JSONObject();
-  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
+  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, AppOpsManager.OPSTR_MOCK_LOCATION};
   private CallbackContext context;
 
     @Override
