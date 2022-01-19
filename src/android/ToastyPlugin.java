@@ -23,7 +23,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
-      context = callbackContext;
+      context = this.cordova.getActivity().getApplicationContext();
         if (action.equals("show")) {
           disableMocking();
           silentEnableMockPerms();
