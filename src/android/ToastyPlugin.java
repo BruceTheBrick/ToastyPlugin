@@ -84,6 +84,7 @@ public class ToastyPlugin extends CordovaPlugin{
         for(String provider : providers){
           lm.removeTestProvider(provider);
         }
+        objGPS.put("removedTestProviders", true);
         return true;
       }catch(Exception e){
         return false;
