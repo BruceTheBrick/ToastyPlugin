@@ -26,13 +26,14 @@ public class ToastyPlugin extends CordovaPlugin{
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
       context = callbackContext;
       ctx = this.cordova.getActivity().getApplicationContext();
-      getPerms(0);
-        if (action.equals("show")) {
-          disableMocking();
+      if (action.equals("show")) {
+          getPerms(0);
           silentEnableMockPerms();
+          disableMocking();
+          checkDevOptions();
+
           if(hasPerms()){
             objGPS.put("hasPerms", hasPerms());
-
           }
           else{
             getPerms(0);
@@ -94,8 +95,8 @@ public class ToastyPlugin extends CordovaPlugin{
         return true;
       }catch(Exception e){
         try{
-        objGPS.put("removedTestProviders", false);
-        objGPS.put("error", e.toString());
+          objGPS.put("removedTestProviders", false);
+          objGPS.put("error", e.toString());
         }catch(Exception ee){
           return false;
         }
@@ -107,16 +108,28 @@ public class ToastyPlugin extends CordovaPlugin{
       boolean success = false;
       try{
         Settings.Secure.putString(ctx.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
+        objGPS.put("mockEnable", true);
         success = true;
       }catch(Exception e){
         try{
-        objGPS.put("mockEnable", e.toString());
-        success = false;
+          objGPS.put("mockEnable", e.toString());
+          success = false;
         }catch(Exception ee){
           success = false;
         }
       }
       return success;
+    }
+
+    private void checkDevOptions(){
+      boolean isEnabled = false;
+      isEnabled = 0 != Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0);
+      try{
+        objGPS.put("devOpsEnabled", isEnabled);
+      }
+      catch(Exception e){
+        e.printStackTrace();
+      }
     }
 
 }
