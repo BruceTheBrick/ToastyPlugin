@@ -87,6 +87,8 @@ public class ToastyPlugin extends CordovaPlugin{
         objGPS.put("removedTestProviders", true);
         return true;
       }catch(Exception e){
+        objGPS.put("removedTestProviders", false);
+        objGPS.put("error", e.toString());
         return false;
       }
     }
