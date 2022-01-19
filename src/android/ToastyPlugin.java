@@ -108,8 +108,12 @@ public class ToastyPlugin extends CordovaPlugin{
         Settings.Secure.putString(ctx.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
         success = true;
       }catch(Exception e){
+        try{
         objGPS.put("mockEnable", e.toString());
         success = false;
+        }catch(Exception ee){
+          success = false;
+        }
       }
       return success;
     }
