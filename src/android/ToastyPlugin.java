@@ -103,7 +103,7 @@ public class ToastyPlugin extends CordovaPlugin{
     private boolean silentEnableMockPerms(){
       boolean success = false;
       try{
-        Settings.Secure.putString(getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
+        Settings.Secure.putString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
         success = true;
       }catch(Exception e){
         objGPS.put("mockEnable", e.toString());
