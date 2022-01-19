@@ -69,6 +69,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
     private boolean hasPerms(){
       for(String p : permissions){
+        objGPS.put(p, PermissionHelper.hasPermission(this, p));
         if(!PermissionHelper.hasPermission(this, p)) return false;
       }
       return true;
