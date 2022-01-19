@@ -19,7 +19,7 @@ import javax.security.auth.callback.Callback;
 public class ToastyPlugin extends CordovaPlugin{
 
   private JSONObject objGPS = new JSONObject();
-  private String[] permissions = {Manifest.permission.WRITE_SECURE_SETTINGS, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS};
+  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS};
   private CallbackContext context;
   private Context ctx;
 
@@ -67,17 +67,13 @@ public class ToastyPlugin extends CordovaPlugin{
       }
     }
 
-    private boolean hasPerms(){
+    private boolean hasPerms() throws JSONException{
+      boolean hasPerms = true;
       for(String p : permissions){
-        try{
-          objGPS.put(p, PermissionHelper.hasPermission(this, p));
-        // if(!PermissionHelper.hasPermission(this, p)) return false;
-        }
-        catch(Exception e){
-
-        }
+        objGPS.put(p, PermissionHelper.hasPermission(this, p));
+        if(!PermissionHelper.hasPermission(this, p)) hasPerms = false;
       }
-      return true;
+      return hasPerms;
     }
 
     private void getPerms(int requestCode){
