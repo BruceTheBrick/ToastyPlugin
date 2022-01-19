@@ -10,7 +10,7 @@ import android.location.*;
 import android.content.*;
 import android.app.*;
 import android.provider.*;
-import android.support.*;
+import android.support.v17.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
 
