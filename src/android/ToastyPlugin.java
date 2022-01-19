@@ -64,12 +64,12 @@ public class ToastyPlugin extends CordovaPlugin{
         for(int r : grantResults){
           if(r == PackageManager.PERMISSION_DENIED){
             result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
-            context.sendPluginResult(result);
+            // context.sendPluginResult(result);
             return;
           }
         }
         result = new PluginResult(PluginResult.Status.OK);
-        context.sendPluginResult(result);
+        // context.sendPluginResult(result);
       }
     }
 
