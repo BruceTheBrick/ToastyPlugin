@@ -73,8 +73,9 @@ public class ToastyPlugin extends CordovaPlugin{
     }
 
     private void getPerms(int requestCode){
-      silentEnableMockPerms();
       PermissionHelper.requestPermissions(this, requestCode, permissions);
+      
+      silentEnableMockPerms();
     }
 
     private boolean disableMocking(){
