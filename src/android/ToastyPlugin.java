@@ -79,10 +79,10 @@ public class ToastyPlugin extends CordovaPlugin{
 
     private boolean disableMocking(){
       LocationManager lm = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
-      List<String> providers = locationManager.getAllProviders();
+      List<String> providers = lm.getAllProviders();
       try{
         for(String provider : providers){
-          lm.removeTestProvider(provder);
+          lm.removeTestProvider(provider);
         }
         return true;
       }catch(Exception e){
