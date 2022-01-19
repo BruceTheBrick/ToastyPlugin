@@ -5,12 +5,12 @@ import android.Manifest;
 import android.os.Build;
 
 import org.apache.cordova.*;
+import org.apache.cordova.PermissionHelper;
 import org.json.*;
 import android.location.*;
 import android.content.*;
 import android.app.*;
 import android.provider.*;
-import android.support.v17.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
 
