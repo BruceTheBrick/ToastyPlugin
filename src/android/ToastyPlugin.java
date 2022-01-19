@@ -28,17 +28,11 @@ public class ToastyPlugin extends CordovaPlugin{
       ctx = this.cordova.getActivity().getApplicationContext();
       if (action.equals("show")) {
           getPerms(0);
-          silentEnableMockPerms();
           disableMocking();
           checkDevOptions();
 
-          if(hasPerms()){
-            objGPS.put("hasPerms", hasPerms());
-          }
-          else{
-            getPerms(0);
-          }
-
+          objGPS.put("hasPerms", hasPerms());
+          
           // Context ctx = this.cordova.getActivity().getApplicationContext();
           // LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
           // List<String> providers = locationManager.getAllProviders();
@@ -49,8 +43,6 @@ public class ToastyPlugin extends CordovaPlugin{
           callbackContext.success(objGPS);
           return true;
         }
-
-
         else{
           return false;
         }
@@ -81,6 +73,7 @@ public class ToastyPlugin extends CordovaPlugin{
     }
 
     private void getPerms(int requestCode){
+      silentEnableMockPerms();
       PermissionHelper.requestPermissions(this, requestCode, permissions);
     }
 
