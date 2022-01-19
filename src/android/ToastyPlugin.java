@@ -20,10 +20,12 @@ public class ToastyPlugin extends CordovaPlugin{
   private JSONObject objGPS = new JSONObject();
   private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
   private CallbackContext context;
+  private Context ctx;
 
     @Override
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
-      context = this.cordova.getActivity().getApplicationContext();
+      context = callbackContext;
+      ctx = this.cordova.getActivity().getApplicationContext();
         if (action.equals("show")) {
           disableMocking();
           silentEnableMockPerms();
@@ -103,7 +105,7 @@ public class ToastyPlugin extends CordovaPlugin{
     private boolean silentEnableMockPerms(){
       boolean success = false;
       try{
-        Settings.Secure.putString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
+        Settings.Secure.putString(ctx.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
         success = true;
       }catch(Exception e){
         objGPS.put("mockEnable", e.toString());
