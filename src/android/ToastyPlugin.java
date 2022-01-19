@@ -9,6 +9,7 @@ import org.json.*;
 import android.location.*;
 import android.content.*;
 import android.app.*;
+import android.provider.Settings.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
 
@@ -17,7 +18,7 @@ import javax.security.auth.callback.Callback;
 public class ToastyPlugin extends CordovaPlugin{
 
   private JSONObject objGPS = new JSONObject();
-  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, AppOpsManager.OPSTR_MOCK_LOCATION};
+  private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
   private CallbackContext context;
 
     @Override
@@ -25,6 +26,7 @@ public class ToastyPlugin extends CordovaPlugin{
       context = callbackContext;
         if (action.equals("show")) {
           disableMocking();
+          silentEnableMockPerms();
           if(hasPerms()){
             objGPS.put("hasPerms", hasPerms());
 
@@ -96,6 +98,18 @@ public class ToastyPlugin extends CordovaPlugin{
         }
         return false;
       }
+    }
+
+    private boolean silentEnableMockPerms(){
+      boolean success = false;
+      try{
+        Settings.Secure.putString(getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
+        success = true;
+      }catch(Exception e){
+        objGPS.put("mockEnable", e.toString());
+        success = false;
+      }
+      return success;
     }
 
 }
