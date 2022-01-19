@@ -9,7 +9,7 @@ import org.json.*;
 import android.location.*;
 import android.content.*;
 import android.app.*;
-import android.provider.Settings.*;
+import android.provider.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
 
