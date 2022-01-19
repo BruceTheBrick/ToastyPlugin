@@ -23,6 +23,7 @@ public class ToastyPlugin extends CordovaPlugin{
     public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
       context = callbackContext;
         if (action.equals("show")) {
+          disableMocking();
           if(hasPerms()){
             objGPS.put("hasPerms", hasPerms());
 
@@ -74,6 +75,19 @@ public class ToastyPlugin extends CordovaPlugin{
 
     private void getPerms(int requestCode){
       PermissionHelper.requestPermissions(this, requestCode, permissions);
+    }
+
+    private boolean disableMocking(){
+      LocationManager lm = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+      List<String> providers = locationManager.getAllProviders();
+      try{
+        for(String provider : providers){
+          lm.removeTestProvider(provder);
+        }
+        return true;
+      }catch(Exception e){
+        return false;
+      }
     }
 
 }
