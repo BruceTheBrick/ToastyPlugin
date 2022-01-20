@@ -35,7 +35,6 @@ public class ToastyPlugin extends CordovaPlugin{
           checkPackageName();
 
           objGPS.put("hasPerms", hasPerms());
-          objGPS.put("APIVersion", getAPIVersion());
           
           callbackContext.success(objGPS);
           return true;
@@ -132,12 +131,9 @@ public class ToastyPlugin extends CordovaPlugin{
       }
     }
 
-    private String getAPIVersion(){
-      return android.os.Build.VERSION;
-    }
 
     private void checkPackageName() throws JSONException{
-      String currName = getApplicationContext().getPackageName();
+      String currName = ctx.getPackageName();
       objGPS.put("PkgName", currName);
     }
 
