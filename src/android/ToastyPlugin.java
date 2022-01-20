@@ -60,7 +60,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
     private void checkDevOptions(){
       boolean isEnabled = false;
-      if(Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) == 0){
+      if(Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0){
         CONFIDENCE_SCORE += DEV_OPS_ENABLED_SCORE;
       }
     }
