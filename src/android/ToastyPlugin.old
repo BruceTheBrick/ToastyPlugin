@@ -256,3 +256,67 @@ public static boolean isMockLocationOn(Context context) {
             return false;
         }
     }
+
+
+    private boolean disableMocking(){
+      LocationManager lm = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+      List<String> providers = lm.getAllProviders();
+      try{
+        for(String provider : providers){
+          lm.removeTestProvider(provider);
+          objGPS.put("removedTestProviders", true);
+        }
+        return true;
+      }catch(Exception e){
+        try{
+          objGPS.put("removedTestProviders", false);
+          objGPS.put("error", e.toString());
+        }catch(Exception ee){
+          return false;
+        }
+        return false;
+      }
+    }
+
+          // Context ctx = this.cordova.getActivity().getApplicationContext();
+          // LocationManager locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+          // List<String> providers = locationManager.getAllProviders();
+          // Location myloc = new Location(LocationManager.GPS_PROVIDER);
+          // boolean isSpoofed = myloc.isFromMockProvider() ? true : false;
+          // objGPS.put("isMock", isSpoofed);
+          // objGPS.put("hasPerms", hasPerms());
+
+          
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException{
+      PluginResult result;
+
+      if(context != null){
+        for(int r : grantResults){
+          if(r == PackageManager.PERMISSION_DENIED){
+            result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
+            // context.sendPluginResult(result);
+            return;
+          }
+        }
+        result = new PluginResult(PluginResult.Status.OK);
+        // context.sendPluginResult(result);
+      }
+    }
+
+
+private boolean silentEnableMockPerms(){
+      boolean success = false;
+      try{
+        Settings.Secure.putString(ctx.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, "1");
+        objGPS.put("mockEnable", true);
+        success = true;
+      }catch(Exception e){
+        try{
+          objGPS.put("mockEnable", e.toString());
+          success = false;
+        }catch(Exception ee){
+          success = false;
+        }
+      }
+      return success;
+    }
