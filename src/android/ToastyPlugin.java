@@ -13,19 +13,16 @@ import android.app.*;
 import android.provider.*;
 import java.util.*;
 import javax.security.auth.callback.Callback;
-
-
-
 public class ToastyPlugin extends CordovaPlugin{
 
   private static String packageName = "com.outsystemsenterprise.itpltst2.TTTamperingTesting";
-  private static float DEV_OPS_ENABLED_SCORE = 0.3;
-  private static float PACKAGE_NAME_MODIFIED = 0.5;
+  private static double DEV_OPS_ENABLED_SCORE = 0.3;
+  private static double PACKAGE_NAME_MODIFIED = 0.5;
 
 
   private JSONObject objGPS = new JSONObject();
   private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-  private float CONFIDENCE_SCORE = 0.0;
+  private double CONFIDENCE_SCORE = 0.0;
   private CallbackContext context;
   private Context ctx;
 
