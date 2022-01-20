@@ -47,11 +47,10 @@ public class ToastyPlugin extends CordovaPlugin{
     }
 
     private boolean hasPerms() throws JSONException{
-      boolean hasPerms = true;
       for(String p : permissions){
-        if(!PermissionHelper.hasPermission(this, p)) hasPerms = false;
+        if(!PermissionHelper.hasPermission(this, p)) return false;
       }
-      return hasPerms;
+      return true;
     }
 
     private void getPerms(int requestCode){
