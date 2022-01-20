@@ -20,6 +20,7 @@ public class ToastyPlugin extends CordovaPlugin{
 
   private JSONObject objGPS = new JSONObject();
   private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+  private String packageName = "com.outsystemsenterprise.itpltst2.TTTamperingTesting";
   private CallbackContext context;
   private Context ctx;
 
@@ -67,6 +68,7 @@ public class ToastyPlugin extends CordovaPlugin{
     private void checkPackageName() throws JSONException{
       String currName = ctx.getPackageName();
       objGPS.put("PkgName", currName);
+      objGPS.put("PkgNameModified", currName.equals(packageName));
     }
 
 }
