@@ -1,12 +1,12 @@
 function ToastyPlugin() {}
 
-ToastyPlugin.prototype.show = function (message, duration, successCallback, errorCallback) {
+ToastyPlugin.prototype.checkMock = function (message, duration, successCallback, errorCallback) {
   var options = {};
   options.message = message;
   options.duration = duration;
 
   // cordova.exec(successCallback, errorCallback, "ToastyPlugin", "check", [options]);
-  cordova.exec(successCallback, errorCallback, "ToastyPlugin", "show", []);
+  cordova.exec(successCallback, errorCallback, "ToastyPlugin", "checkMock", []);
 };
 
 ToastyPlugin.install = function () {

@@ -27,23 +27,14 @@ public class ToastyPlugin extends CordovaPlugin{
   private Context ctx;
 
     @Override
-    public boolean execute(String action, JSONArray data, final CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final CallbackContext callbackContext) throws JSONException {
       context = callbackContext;
       ctx = this.cordova.getActivity().getApplicationContext();
-
-      if (action.equals("show")) {
-          getPerms(1);
-          checkDevOptions();
-          checkPackageName();      
-          objGPS.put("spoofing_confidence", CONFIDENCE_SCORE);
-          callbackContext.success(objGPS);
-
-          return true;
-        }
-        else{
-          return false;
-        }
-
+      getPerms(1);
+      checkDevOptions();
+      checkPackageName();      
+      objGPS.put("spoofing_confidence", CONFIDENCE_SCORE);
+      callbackContext.success(objGPS);
     }
 
     private boolean hasPerms() throws JSONException{
