@@ -40,7 +40,7 @@ public class ToastyPlugin extends CordovaPlugin{
           return true;
         }
         else{
-          // callbackContext.failure();
+        // callbackContext.failure();
           return false;
         }
 
