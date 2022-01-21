@@ -1,6 +1,6 @@
 function ToastyPlugin() {}
 
-ToastyPlugin.prototype.checkMock = function (message, duration, successCallback, errorCallback) {
+ToastyPlugin.prototype.checkMock = function (successCallback, errorCallback) {
   var options = {};
   options.message = message;
   options.duration = duration;
