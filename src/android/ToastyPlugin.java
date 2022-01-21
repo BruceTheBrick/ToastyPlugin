@@ -33,8 +33,8 @@ public class ToastyPlugin extends CordovaPlugin{
 
       if (action.equals("checkMock")) {
           getPerms(1);
-          checkDevOptions();
-          checkPackageName();      
+          objGPS.put("devOpsEnabled", checkDevOptions());
+          objGPS.put("packageNameChanged", checkPackageName());      
           objGPS.put("spoofing_confidence", CONFIDENCE_SCORE);
           callbackContext.success(objGPS);
           return true;
@@ -57,18 +57,23 @@ public class ToastyPlugin extends CordovaPlugin{
       PermissionHelper.requestPermissions(this, requestCode, permissions);
     }
 
-    private void checkDevOptions(){
+    private boolean checkDevOptions(){
       boolean isEnabled = false;
       if(Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0){
         CONFIDENCE_SCORE += DEV_OPS_ENABLED_SCORE;
+        isEnabled = true;
       }
+      return isEnabled;
     }
 
-    private void checkPackageName() throws JSONException{
+    private boolean checkPackageName() throws JSONException{
+      boolean isChanged = false;
       String currName = ctx.getPackageName();
       if(!currName.equals(packageName)){
         CONFIDENCE_SCORE += PACKAGE_NAME_MODIFIED;
+        isChanged = true;
       }
+      return isChanged;
     }
 
 }
