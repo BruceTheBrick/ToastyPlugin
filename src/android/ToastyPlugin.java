@@ -35,7 +35,7 @@ public class ToastyPlugin extends CordovaPlugin{
           getPerms(1);
           objGPS.put("devOpsEnabled", checkDevOptions());
           objGPS.put("packageNameChanged", checkPackageName());      
-          objGPS.put("spoofing_confidence", CONFIDENCE_SCORE);
+          objGPS.put("spoofingConfidence", CONFIDENCE_SCORE);
           callbackContext.success(objGPS);
           return true;
         }
