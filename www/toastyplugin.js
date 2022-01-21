@@ -1,10 +1,7 @@
 function ToastyPlugin() {}
 
 ToastyPlugin.prototype.checkMock = function (successCallback, errorCallback) {
-  var options = {};
-  options.message = message;
-  options.duration = duration;
-
+  // var options = {};
   // cordova.exec(successCallback, errorCallback, "ToastyPlugin", "check", [options]);
   cordova.exec(successCallback, errorCallback, "ToastyPlugin", "checkMock", []);
 };
