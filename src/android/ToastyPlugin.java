@@ -16,13 +16,13 @@ import javax.security.auth.callback.Callback;
 public class ToastyPlugin extends CordovaPlugin{
 
   private static String packageName = "com.outsystemsenterprise.itpltst2.TTTamperingTesting";
-  private static double DEV_OPS_ENABLED_SCORE = 0.3;
-  private static double PACKAGE_NAME_MODIFIED = 0.5;
+  // private static double DEV_OPS_ENABLED_SCORE = 0.3;
+  // private static double PACKAGE_NAME_MODIFIED = 0.5;
 
 
   private JSONObject objGPS = new JSONObject();
   private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-  private double CONFIDENCE_SCORE = 0.0;
+  // private double CONFIDENCE_SCORE = 0.0;
   private CallbackContext context;
   private Context ctx;
 
@@ -35,7 +35,7 @@ public class ToastyPlugin extends CordovaPlugin{
           getPerms(1);
           objGPS.put("devOpsEnabled", checkDevOptions());
           objGPS.put("packageNameChanged", checkPackageName());      
-          objGPS.put("spoofingConfidence", CONFIDENCE_SCORE);
+          // objGPS.put("spoofingConfidence", CONFIDENCE_SCORE);
           callbackContext.success(objGPS);
           return true;
         }
@@ -60,7 +60,7 @@ public class ToastyPlugin extends CordovaPlugin{
     private boolean checkDevOptions(){
       boolean isEnabled = false;
       if(Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0){
-        CONFIDENCE_SCORE += DEV_OPS_ENABLED_SCORE;
+        // CONFIDENCE_SCORE += DEV_OPS_ENABLED_SCORE;
         isEnabled = true;
       }
       return isEnabled;
@@ -70,7 +70,7 @@ public class ToastyPlugin extends CordovaPlugin{
       boolean isChanged = false;
       String currName = ctx.getPackageName();
       if(!currName.equals(packageName)){
-        CONFIDENCE_SCORE += PACKAGE_NAME_MODIFIED;
+        // CONFIDENCE_SCORE += PACKAGE_NAME_MODIFIED;
         isChanged = true;
       }
       return isChanged;
